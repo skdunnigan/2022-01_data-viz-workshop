@@ -24,6 +24,7 @@ gradethis::gradethis_setup()
 https://pkgs.rstudio.com/learnr/articles/exercises.html#checking-blanks
 https://pkgs.rstudio.com/learnr/articles/exercises.html#overview
 https://rstudio.github.io/learnr/
+https://damien-datasci-blog.netlify.app/post/how-to-make-an-interactive-tutorial-to-teach-r-an-overview/
 
 
 ## Instructions
