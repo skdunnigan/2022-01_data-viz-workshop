@@ -3,6 +3,8 @@ title: "Introduction"
 output: html_document
 ---
 
+Always run the set-up chunk first. This typically includes any RMarkdown default settings you want, loading libraries, or even sometimes datasets.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
