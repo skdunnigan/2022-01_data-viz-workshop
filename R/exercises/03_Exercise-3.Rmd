@@ -1,0 +1,96 @@
+---
+title: "Exercise 3"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE) # this will make your code visible along with your plots
+knitr::opts_chunk$set(message = FALSE) # removes messages from your final output
+knitr::opts_chunk$set(warning = FALSE) # removes warnings from your final output
+library(tidyverse)
+library(here)
+library(khroma)
+```
+
+# Objectives
+
++  Density geoms
++  Facets
++  Labels
++  Customizing themes
++  Saving plots
+
+## About the data
+
+We're going back to the oyster data. Again, this data was collected by the Guana Tolomato Matanzas National Estuarine Research Reserve as part of an oyster monitoring pilot project led by Head Biologist Pamela Marcum. A report with this information can be found [here](https://gtmnerr.org/wp-content/uploads/2018/10/2014-2016-GTM-oyster-monitoring.pdf).
+
+# A
+
+Load oysters data
+
+```{r}
+load(here('data', 'oysters.RData'))
+```
+
+# B
+
+Create a density plot of oyster lengths (in mm) by Region. Select an alpha value between 0.2-0.8 and apply to the density geom layer.
+
+Include vertical lines marking the fishery-size oyster lower limit (76mm) as a solid line and the upper limit of spat size (25mm) with a dashed line. 
+
+```{r}
+
+  
+```
+
+# C
+
+Remove the alpha argument and use `facet_wrap` to separate Regions into their own plots and set the number of rows to 2. 
+
+```{r}
+
+  
+```
+
+# D
+
+Visit www.colorbrewer2.org to find an appropriate palette for this qualitative data series and apply your new color palette. Or, load the `khroma` package and use one of their color palettes. You may wish to view the help file for the package and keep in mind, this is discrete data.
+
+```{r}
+
+  
+```
+
+# E
+
+Add the default `theme_bw()` to the plot, and relabel the axes to Shell Height (mm) and Proportion as x and y, respectively.
+
+```{r}
+
+
+```
+
+# F
+
+Further customize the theme: 
+
++  Change the strip background color to white and the strip text to size 12. 
++  This `theme_bw` does not make the axis text black (more a dark gray), so set the axis text to be colored black. 
+
+*Hint: For help on Theme elements use the `?margin` help window.*
+
+```{r}
+
+
+```
+
+# G
+
+Complete your plot by saving it into the 'output' subfolder in your main project folder.
+
+```{r}
+
+
+```

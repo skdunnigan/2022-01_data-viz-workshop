@@ -1,0 +1,129 @@
+---
+title: "Exercise 2"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) # this will make your code visible along with your plots
+knitr::opts_chunk$set(message = FALSE) # removes messages from your final output
+knitr::opts_chunk$set(warning = FALSE) # removes warnings from your final output
+library(tidyverse)
+library(here)
+library(khroma)
+```
+
+# Objectives
+
++  Work with categorical data
++  Create and work with column charts
++  Manipulate y-axis scales
++  Use colorbrewer2 palettes
++  Switch to polar coordinate system to transform into pie chart
++  Facets
++  Themes
++  Saving your plot in a specified location
+
+## About the Data
+
+This data comes from the Coastal Training Program at the Guana Tolomato Matanzas National Estuarine Research Reserve and was collected and compiled by Kaitlyn Dietz and Abigail Kuhn. This is attendance data from a few of the Oyster and Water Quality Task Force (OWQTF) Meetings facilitated by the GTMNERR. For more about the OWQTF check out their [website](https://gtmnerr.wixsite.com/owqtf)!
+
+# A
+
+Read in the owqtf data. 
+
+```{r}
+load(here('data', 'owqtf.RData'))
+
+
+```
+
+1.  What variables are included in the dataset?
+
+2.  What are the classes of the variables?
+
+# B
+
+Create a column chart of the data by `Year` and `No` (No. is the number of attendees) and fill by `Type`.
+
+```{r}
+
+
+```
+
+# C
+
+Notice that the plot you created in B used the raw numbers that were provided in the `No` column and stacked the information into a single bar for each year. We want to look at these as a proportion of a total number of attendees.
+
+Therefore, change the position argument to "fill".
+
+```{r}
+
+```
+
+See how now the columns are now part of a whole? Check out the scale of the y-axis.
+
+# D
+
+Since the y-axis represents a proportion, why not have it be written as percentages?
+
+If we want to change the y-axis, what are we manipulating? We are manipulating the *scale*, or the way the y data is mapped to our plot. Therefore, we will need to change data inside the `scale_()` functions. The easiest way to change the labels of your y-axis is to do so directly inside the scale function.
+
+So, determine which scale function to use and add `labels = scales::percent` inside your scale function.
+
+```{r}
+
+```
+
+# E
+
+Now, change the color scale using the `scale_fill_brewer()` function. If you visit colorbrewer2.org and select "qualitative" for the type of data we have and then identify 10 distinct classes, you'll note that there are two suggested color schemes: `Set3` and `Paired`.
+
+Pick one of the two palettes and change the colors in your plot from part D. (*Hint: check out the helper function for `scale_fill_brewer()` to see how to change the "type" and "palette" for your plot.*)
+
+```{r}
+
+```
+
+# F
+
+Alright, that's cool, but often this data is also presented as a pie chart.
+
+Add the `coord_polar()` function to your plot and run it without anything inside the function.
+
+```{r}
+
+```
+
+Note how the data somewhat resembles the bars in our previous plot, also cool, but not what we want.
+
+# G
+
+facet_wrap() by Year and make it all in one row.
+
+```{r}
+
+```
+
+Since we're faceting by Year, we no longer need it represented as an x variable. To silence and remove the effect of the x variable, change the x variable in your geom_col function to `x = ""` (replacing YEAR with just a set of quotes).
+
+```{r}
+
+```
+
+# H
+
+Okay, it is sort of getting there, but now it's clear that the data we are wanting to map at an angle is not the x data (our Year), but the y data. Inside `coord_polar()`, add the arguments `theta = "y"` and `start = 0` to change the angle to the y variable and starting at the 0 degree position.
+
+```{r}
+
+```
+
+# I
+
+Excellent! Now, add the `theme_void()` function to complete your plot and save it into the 'output' subfolder in your main project folder.
+
+```{r}
+
+```

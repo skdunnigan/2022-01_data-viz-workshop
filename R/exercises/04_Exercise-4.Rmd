@@ -1,0 +1,133 @@
+---
+title: "Exercise 4"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) # this will make your code visible along with your plots
+knitr::opts_chunk$set(message = FALSE) # removes messages from your final output
+knitr::opts_chunk$set(warning = FALSE) # removes warnings from your final output
+library(tidyverse)
+library(here)
+library(plotly)
+```
+
+# Objectives
+
++  Layering Geoms
++  Global and local aesthetics
++  Conditional aesthetics
++  Manipulating scales (including datetime scales)
++  Themes and labels
++  Interactive plots
+
+
+## About the data
+
+This data comes from the System-Wide Monitoring Program (SWMP) water quality station in Pellicer Creek, Florida in the Guana Tolomato Matanzas National Estuarine Research Reserve. This data was collected using a continuous data sonde recording every 15-minutes in 2016 and was aggregated to hourly values.
+
+# A
+
+Load the water quality data
+
+```{r include = FALSE}
+load(here('data', 'pc_hourly_wq.RData'))
+
+```
+
+1.  What are the variables in `wq_update`?
+
+[Add your answer here]
+
+2.  What class are the variables?
+
+[Add your answer here]
+
+3.  When were these data collected? Explore the date variable.
+
+[Add your answer here]
+
+# B
+
+Create a scatterplot of dissolved oxygen (mg/L) over time.
+
+```{r}
+
+
+```
+
+# C
+
+Add a smoothing geom over the points to indicate general trend over time. Set the method to 'gam', but know that with > 1000 observations, `geom_smooth` will default to this one over 'loess' or 'glm'. (*Tip: you may wish to take advantage of global plot settings*)
+
+Also, add a dashed horizontal line to indicate upper threshold of hypoxia (2 mg/L).
+
+```{r}
+ 
+
+```
+
+# D
+
+Let's pull out the values that are less than this hypoxia threshold. Inside the aesthetic argument for your points, set color to equal do_mgl <= 2. Check out what this does to your plot.
+
+```{r}
+
+
+```
+
+What does the legend tell you? 
+
+[Add your answer here]
+
+# E
+
+Let's use this and further customize the plot. 
+
+Inside `scale_color_manual()`, create a better name for your legend, such as "DO < 2 mg/L", and set your labels and values arguments. Use the default labels the plot gave you in your legend (e.g. "FALSE" and "TRUE"). For the values, set FALSE to equal "gray" and TRUE to equal "red". (*Hint: I've left the general structure for the scale function in the chunk below.*)
+
+```{r}
+  scale_color_manual(name = "<GIVE ME A NEW NAME!>",
+                     labels = c("<Condition 1>", "<Condition 2>"),
+                     values = c('<color 1>', '<color 2>')) 
+```
+
+# F
+
+Add the `theme_classic()` layer and move the legend position to "bottom" (*Hint: this is in a theme function*) 
+
+Change the y axis title to "Dissolved Oxygen (mg/L)" and remove the x axis title. (*Hint: you can "silence" labels by defining a blank with "".*)
+
+```{r}
+
+```
+
+# G
+
+Let's explore the scale for the x-axis. This data is datetime data and therefore has a specific scale function: `scale_x_datetime()`. Define  `date_breaks = "month"` and  `date_labels = "%b"`. 
+(*If you want to understand options for your date labels, check out the helper for `?strptime`*!)
+
+We will add this scale function into our working code chunk, but **be mindful of your plot layering**. I like to group my scale functions after the geom functions and before the theme functions.
+
+```{r}
+
+```
+
+# H
+
+Your plot looks great! Let's say you really wanted to poke at those values <= 2 mg/L, my favorite thing to use is an interactive chart. Assign your plot to an object (*ahem* using <- ). Next, use the `ggplotly()` function from the `plotly` package and put the name of your object inside (ex. `ggplotly(a)`). 
+
+Your plot will now become an interactive plotly figure and will open inside the "Viewer" tab. Poke around, in particular, see what pops up when you hover over your points. Double click on your legend information, see how it further isolates the values? 
+
+```{r}
+
+```
+
+Pretty neat, huh?
+How do you see yourself using something like this?
+
+[Insert your answer here]
+
+This is hourly data. Use the interactive plot to "zoom in" to the first 15 days of October. Check out what the hourly dissolved oxygen was doing. What significant event occurred in early October of 2016 that could have had this affect on the dissolved oxygen? (*Hint: you can google "Hurricane October 2016"...*)

@@ -1,0 +1,108 @@
+---
+title: "Exercise 1"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) # this will make your code visible along with your plots
+knitr::opts_chunk$set(message = FALSE) # removes messages from your final output
+knitr::opts_chunk$set(warning = FALSE) # removes warnings from your final output
+library(tidyverse)
+library(here)
+```
+
+# Objectives
+
++  View data 
++  Create histogram of oyster lengths
++  Work in layers
++  Facets
+
+## About the data
+
+This data was collected by the Guana Tolomato Matanzas National Estuarine Research Reserve as part of an oyster monitoring pilot project led by Head Biologist Pamela Marcum. A report with this information can be found [here](https://gtmnerr.org/wp-content/uploads/2018/10/2014-2016-GTM-oyster-monitoring.pdf).
+
+We are going to use this data to visualize the distribution of oyster lengths within different regions of the GTMNERR as well as within harvest and non-harvest zones.
+
+# A
+
+Read in oysters data by running the chunk below and examine the variables in your dataset.
+
+```{r, include = FALSE}
+load(here('data', 'oysters.RData'))
+
+
+```
+
+1.  What are the variables in `oysters`?
+
+[Add your answer here]
+
+2.  What class are the variables?
+
+[Add your answer here]
+
+3.  What are the unique regions in which this data was collected? (*Hint: check out the `unique()` function for help*)
+
+[Add your answer here]
+
+4.  When were these data collected? Explore the date variable.
+
+[Add your answer here]
+
+# B
+
+Next, create a histogram of oyster lengths for the whole dataset using the height measurements.
+
+```{r}
+
+
+```
+
+Note the warning message about picking better `binwidth`. Let's change the binwidth to 5.
+
+```{r}
+
+```
+
+# C
+
+Fishery-sized oysters ("harvestable") must be three inches in length (76 mm). Let's add a vertical line to the plot using `geom_vline` at 76mm for fishery-size.
+
+```{r}
+
+
+```
+
+Excellent! Now, the upper limit of oyster spat (newly settled oysters) is 25mm. Let's add a line on there for that, too, but make it a "dashed" linetype.
+
+```{r}
+
+
+```
+
+# D
+
+Next, let's look at how these oyster lengths look within and outside of harvest zones by filling the bars by the `Harvest` variable.
+
+```{r}
+
+
+```
+
+# E
+
+Using facet_wrap, separate the harvest information into two separate plots
+
+```{r}
+
+
+```
+
+***
+
+What are your observations of this data?
+
+[Add your answer here]

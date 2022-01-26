@@ -1,0 +1,20 @@
+---
+title: "Ugly Plot"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## CHALLENGE
+
+Using the `diamonds` data make a scatterplot of `carat` by `price` and assign color by `clarity`.
+Customize the themes and colors of the plot to make it the *ugliest* plot that you can.
+Save this plot in your files pane.
+
+``` {r ugly}
+ggplot(data = diamonds) +
+  geom_point(aes(x = carat, y = price, color = clarity))
+```
+
