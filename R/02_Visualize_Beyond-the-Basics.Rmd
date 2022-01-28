@@ -1,0 +1,168 @@
+---
+title: "Visualize Data: Beyond the Basics"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: yeti
+    highlight: tango
+    df_print: paged
+editor_options:
+  chunk_output_type: console
+---
+
+<!-- This file by Shannon Dunnigan was adapted from the original work at https://github.com/rstudio/master-the-tidyverse by RStudio. -->
+
+# The Basics Recap
+
++  Mappings and aesthetics
++  Facets
++  Geoms
++  Stat
++  Position
++  Global vs Local settings
++  Scales
++  Coordinate Systems
++  Themes
++  Saving your plots
+
+To make a graph:
+
+1.    Pick your *data* set
+2.    Choose the best *geom* to display the cases
+3.    *Map* aesthetic properties to variables.
+4.    **Not required**, but defaults are supplied by the specified geom that you can then manually change.
+
+You can use this code template to make thousands of graphs with `ggplot2`.
+
+```{r, eval = FALSE}
+ggplot(data = <DATA>) +
+  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>),
+                  stat = <STAT>,
+                  position = <POSITION>) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION> +
+  <SCALE_FUNCTION> +
+  <THEME_FUNCTION>
+```
+
+# Beyond the Basics
+
++  Conditional terms in ggplot
++  Multiplots with `patchwork`
++  Interactive plots with `plotly`
++  Theme customization with `ggThemeAssist`
++  Adding plot statistics with `ggpubr` *maybe covered, but time dependent.
+
+
+"r setup" is an optional label for a chunk, but it should always run once before anything else. Notice that in this setup we are loading the `tidyverse` and `here` packages.
+
+```{r setup, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(here)
+library(patchwork)
+library(plotly)
+library(ggThemeAssist)
+library(ggpubr)
+```
+
+The `guana_nut` data frame contains monthly extracted chlorophyll a data collected within the Guana Lake and River system from 2017-2021 in Ponte Vedra Beach, Florida. This data is provided by the Guana Tolomato Matanzas National Estuarine Research Reserve and is currently maintained by Olivia Roorbach. *Notice the use of the `here` package in the code below.*
+
+```{r loaddata}
+load(file = here('data', 'guana_nut.RData'))
+
+```
+
+## Conditional Aesthetics 
+
+We can also set conditions inside of aesthetic properties which is of particular help when telling stories through data. Let's look at some chlorophyll a data. Also, I want to point out that you can use filtering functions on a dataset inside the ggplot code to consolidate your coding effort!
+
+```{r cond-1}
+ggplot(data = filter(guana_nut, site_acronym == "GR1"), 
+       aes(x = sample_date, y = result)) +
+	geom_line() +
+  geom_point() +
+  labs(x = "Date",
+       y = "Chlorophyll a (\U00B5g/L)")
+
+```
+
+Wow, there are some high values in there. The Florida State threshold for chlorophyll a in Class II Estuary waters is 6.6ug/L. Let's add a threshold line and pull out all of the values that exceed that threshold. 
+
+```{r cond-2}
+ggplot(data = filter(guana_nut, site_acronym == "GR1"), 
+       aes(x = sample_date, y = result)) +
+	geom_line() +
+  geom_point(aes(color = result > 6.6), size = 2) +
+  geom_hline(yintercept = 6.6, linetype = "dashed") +
+  labs(x = "Date",
+       y = "Chlorophyll a (\U00B5g/L)")
+
+```
+
+You can also change the aesthetics from color to shape, etc. 
+
+These can also further be defined in the scales and provided with specified labels and values.
+
+```{r cond-3}
+ggplot(data = filter(guana_nut, site_acronym == "GR1"), 
+       aes(x = sample_date, y = result)) +
+	geom_line() +
+  geom_point(aes(color = result > 6.6), size = 2) +
+  geom_hline(yintercept = 6.6, linetype = "dashed") +
+  scale_color_manual(name = "",
+                     labels = c("< 6.6 \U00B5g/L", "> 6.6 \U00B5g/L"),
+                     values = c("black", "red")) +
+  labs(x = "Date",
+       y = "Chlorophyll a (\U00B5g/L)")
+
+```
+
+## Multiplots with `patchwork`
+
+The `patchwork` package makes creating multiplots as easy as basic math...because it's like math! Remember PEMDAS from grade school? Anything inside of parentheses will be done first.
+
+```{r}
+GR1 <- ggplot(data = filter(guana_nut, site_acronym == "GR1"), 
+       aes(x = sample_date, y = result)) +
+	geom_line() +
+  geom_point(aes(color = result > 6.6), size = 2) +
+  geom_hline(yintercept = 6.6, linetype = "dashed") +
+  scale_color_manual(name = "",
+                     labels = c("< 6.6 \U00B5g/L", "> 6.6 \U00B5g/L"),
+                     values = c("black", "red")) +
+  labs(x = "Date",
+       y = "Chlorophyll a (\U00B5g/L)")
+
+GR <- ggplot(data = filter(guana_nut, site_acronym == "GR"), 
+       aes(x = sample_date, y = result)) +
+	geom_line() +
+  geom_point(aes(color = result > 6.6), size = 2) +
+  geom_hline(yintercept = 6.6, linetype = "dashed") +
+  scale_color_manual(name = "",
+                     labels = c("< 6.6 \U00B5g/L", "> 6.6 \U00B5g/L"),
+                     values = c("black", "red")) +
+  labs(x = "Date",
+       y = "Chlorophyll a (\U00B5g/L)")
+
+River_sites <- ggplot(data = filter(guana_nut, wbid == "River"), 
+       aes(x = sample_date, y = result, color = site_acronym, group = site_acronym)) +
+	geom_line() +
+  geom_point(size = 2) +
+  labs(x = "Date",
+       y = "Chlorophyll a (\U00B5g/L)",
+       color = "Site")
+
+# notice the single sites figures are on the top and next to one another and the full series is underneath the two
+(GR1 + GR) / River_sites
+```
+
+## Interactive plots with `plotly`
+
+Use the `plotly` package to turn any of your ggplots into interactive plots with the `ggplotly()` function. Simply wrap the plot inside the function and it will output into the "Viewer" tab of your RStudio!
+
+## Theme customization with `ggThemeAssist`
+
+When you install `ggThemeAssist` and open the package with `library()`, it adds into your RStudio as an "Addin", which you can navigate to under the main navigation bar on the far right, typically under the "Help" tab. 
+
