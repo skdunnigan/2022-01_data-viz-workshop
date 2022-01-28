@@ -19,7 +19,7 @@ Don't worry, this repository contains all the notes and exercises that were used
 
 +  It is recommended that you run the `00_package_check.R` script prior to working in the `.R` and `.Rmd` files. 
 +  The exercises are presented in an RMarkdown file `.Rmd` with an associated `_helper-file.html` file. This html document presents the outcome visuals for each step of the exercises to provide the user with a goal output to check their work, since no "answer" code is provided. 
-+  All the content covered through live instruction is covered as notes and code chunk examples in the `01_Visualize_Basics.Rmd` and `02_Visualize_Beyond-the-Basics.Rmd`.
++  All the content from the live instruction is provided as notes and code chunk examples in the `01_Visualize_Basics.Rmd` and `02_Visualize_Beyond-the-Basics.Rmd`.
 +  The slides used in the live session are not provided in this repository.
 
 ```
