@@ -1,5 +1,8 @@
 # Data Visualization
-## A Virtual Workshop | January 27-28, 2022 | Created and led by Shannon Dunnigan
+## A Virtual Workshop | January 27-28, 2022
+
+Created and led by Shannon Dunnigan
+
 ***
 
 *This workshop is part of a series of R-related workshops open to staff from the Gulf Coast and Florida National Estuarine Research Reserves (Weeks Bay, Grand Bay, Mission Aransas, Rookery Bay, Apalachicola, and GTM) as well as Florida???s Aquatic Preserves who want to use R in their regular workflow.*
